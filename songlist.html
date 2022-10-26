@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>Playlist Database</title>
+  <link href="style.css" rel="stylesheet" type="text/css" />
+  <script   src="https://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
+
+    <script language="javascript">
+
+            function genreClick()
+            {
+                var check ="";
+                var op = document.getElementById("selection").selectedIndex;
+                $.get( "script.js", 
+                function( data ) {
+                
+                    strHTML= "";
+
+                    data.forEach(function(song) { 
+                        if (op == 0)
+                        {
+                            strHTML = strHTML + "<ul>" 
+                            + "<li><strong>" + song.name + "</strong></li>"
+                            + "<li>" + "Artist: " + song.artist + "</li>"
+                            + "<li>" + "Released: " + song.year + "</li>"
+                            + "<li>" + "Genre: " + song.genre+ "</li>"
+                            +"</ul>";
+                        }
+                        else{
+                            console.log("changed");
+                            check = document.getElementById("selection").options[op].text;
+                            console.log("check: " + check);
+                            console.log("genre: " + song.genre)
+                            console.log(song.genre.localeCompare(check) == 0);
+                            if (song.genre.localeCompare(check) == 0)
+                            {
+                                console.log(song.Genre);
+                                strHTML = strHTML + "<ul>" 
+                                + "<li><strong>" + song.name + "</strong></li>"
+                                + "<li>" + "Artist: " + song.artist + "</li>"
+                                + "<li>" + "Released: " + song.year + "</li>"
+                                + "<li>" + "Genre: " + song.genre+ "</li>"
+                                +"</ul>";
+                            }
+
+                        }
+                        
+                    }) 
+                    document.getElementById("display").innerHTML = strHTML;  
+                })
+
+            }
+
+            window.onload = function()
+            {
+                document.getElementById("filt").addEventListener('click', function()
+                {
+                    genreClick();
+                })
+            }
+        </script>
+  
+</head>
+
+<body>
+   <h1>Song Selector</h1>
+   <br> <h2>Pick Song Genre: </h2>
+    <select name="sList" size="1"  id="selection" >
+        <option>VIEW ALL</option>
+        <option>Mando Pop/Pop</option>
+        <option>R and B/Soul</option>
+        <option>Hip Hop/Rap</option>
+        <option>Kpop</option>
+        <option>EDM/Trap</option>
+        <option>Country Pop</option> 
+
+    </select>    
+    <input type="button" id="filt" value="FILTER"> 
+    <div id=display></div>
+        
+  <script src="script.js">
+
+
+      $.get( "script.js", 
+            function( data ) {
+                strHTML= "";
+          data.forEach(function(song) { 
+            strHTML = strHTML + "<ul>" 
+            + "<li><strong>" + song.name + "</strong></li>"
+            + "<li>" + "Artist: " + song.artist + "</li>"
+            + "<li>" + "Released: " + song.year + "</li>"
+            + "<li>" + "Genre: " + song.genre+ "</li>"
+            +"</ul>";
+                }) 
+        document.getElementById("display").innerHTML += strHTML;  
+        })
+
+
+              
+  </script> 
+</body>
+
+</html>
+
+
+
